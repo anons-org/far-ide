@@ -1,37 +1,23 @@
 # far-editor
 
 #### 介绍
-far语言代码编辑器
+far代码编辑器v1.0
 
-#### 软件架构
-软件架构说明
+#### 功能
+布局可以参考vscode
+- 创建项目（创建一个新的文件夹就是一个项目,项目的配置文件就在该文件夹内）
+- 打开项目(根据目录地址打开一个项目)
+- 树形展示项目的代码文件，支持折叠和展开
+- 右边为table区域，可以展示文件的代码以及代码行。（第一个版本不需要代码提示，关键字高亮、语法检查） 代码行 支持添加、删除、禁用断点
+#### 1.0 核心功能
+- 断点触发时：
+>在A区域显示当前所有的线程（下拉列表）
+>在B区域展示当前栈帧中的所有局部变量(树形控件）可以直接添加ROOT（此动作为：添加需要监视的变量）
+>在C区域显示单行执行，进入，跳出 等按钮
 
-
-#### 安装教程
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+- 核心功能中 线程、局部变量 都由后端推送，前端负责显示即可
 
 
-#### 特技
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+
+
