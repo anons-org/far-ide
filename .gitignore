@@ -30,3 +30,5 @@ out/
 # gitee
 .gitee
 
+.DS_Store
+
