@@ -26,9 +26,12 @@ package-lock.json
 
 # output
 out/
+dist/
+release/
 
 # gitee
 .gitee
 
 .DS_Store
+
 
