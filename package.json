@@ -40,5 +40,8 @@
     "vite-plugin-electron": "^0.29.0",
     "vite-plugin-electron-renderer": "^0.14.6",
     "vitest": "^3.0.1"
+  },
+  "dependencies": {
+    "react-split-pane": "^0.1.92"
   }
 }

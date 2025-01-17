@@ -9,3 +9,7 @@
 * {
   background-color: var(--color-primary);
 }
+
+.drag {
+  -webkit-app-region: drag;
+}

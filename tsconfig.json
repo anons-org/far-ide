@@ -22,6 +22,6 @@
       ]
     },
   },
-  "include": ["src", "electron"],
+  "include": ["src", "electron", "postcss.config.js", "tailwind.config.js"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
