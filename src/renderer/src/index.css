@@ -1,6 +1,7 @@
- --color-primary: #181818;
+:root {
+  --color-primary: #181818;
+}
 
-
- * {
+* {
   background-color: var(--color-primary);
- }
+}
