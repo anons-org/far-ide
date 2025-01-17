@@ -1,0 +1,6 @@
+ --color-primary: #181818;
+
+
+ * {
+  background-color: var(--color-primary);
+ }
