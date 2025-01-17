@@ -42,6 +42,8 @@
     "vitest": "^3.0.1"
   },
   "dependencies": {
-    "react-split-pane": "^0.1.92"
+    "allotment": "^1.20.2",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.6.0"
   }
 }

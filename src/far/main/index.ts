@@ -49,6 +49,8 @@ async function createWindow() {
     icon: path.join(process.env.VITE_PUBLIC, "favicon.ico"),
     frame: false,
     titleBarStyle: "hiddenInset",
+    width: 1024,
+    height: 768,
     webPreferences: {
       preload,
       // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production

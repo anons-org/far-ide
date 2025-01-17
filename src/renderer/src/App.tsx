@@ -1,21 +1,21 @@
-import SplitPane, { Pane } from "react-split-pane";
-import Tabbar from "./components/tabbar";
+import { Tabbar } from "@common";
+import { Allotment } from "allotment";
+import "allotment/dist/style.css";
+import "./assets/iconfont.js";
 
 export default function App() {
   return (
     <div className="bg-primary h-screen flex flex-col">
       <Tabbar />
-      <div className="flex-1 overflow-hidden relative">
-        {/* @ts-ignore */}
-        <SplitPane
-          split="vertical"
-          style={{ height: "100%" }}
-          resizerClassName="w-[2px]"
-          resizerStyle={{ backgroundColor: "yellow" }}
-        >
-          <Pane className="h-full bg-red-500">1</Pane>
-          <Pane className="h-full bg-blue-500">2</Pane>
-        </SplitPane>
+      <div className="flex-1">
+        <Allotment defaultSizes={[160, 200]}>
+          <Allotment.Pane minSize={160}>
+            <div>11</div>
+          </Allotment.Pane>
+          <Allotment.Pane>
+            <div>22</div>
+          </Allotment.Pane>
+        </Allotment>
       </div>
     </div>
   );

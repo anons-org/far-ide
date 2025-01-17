@@ -4,12 +4,22 @@
 
 :root {
   --color-primary: #181818;
+  --text-primary: #d1d1d1;
 }
 
 * {
-  background-color: var(--color-primary);
+  color: var(--text-primary);
+  font-size: 12px;
 }
+
 
 .drag {
   -webkit-app-region: drag;
+}
+
+.custom-icon-font {
+  width: 1em; height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
 }

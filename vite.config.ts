@@ -7,7 +7,6 @@ import pkg from "./package.json";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
-  console.log(22);
   rmSync("out/far", { recursive: true, force: true });
 
   const isServe = command === "serve";
@@ -20,6 +19,7 @@ export default defineConfig(({ command }) => {
     resolve: {
       alias: {
         "@": path.join(__dirname, "src/renderer"),
+        "@common": path.join(__dirname, "src/renderer/src/common"),
       },
     },
     plugins: [
