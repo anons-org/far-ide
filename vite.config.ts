@@ -68,7 +68,7 @@ export default defineConfig(({ command }) => {
       }),
     ],
     build: {
-      outDir: "out/renderer",
+      outDir: "../../out/renderer",
     },
     server:
       process.env.VSCODE_DEBUG &&

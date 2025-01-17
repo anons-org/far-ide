@@ -29,9 +29,9 @@ out/
 dist/
 release/
 
-# gitee
+# . 
 .gitee
-
 .DS_Store
+.vite/
 
 
