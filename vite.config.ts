@@ -18,7 +18,7 @@ export default defineConfig(({ command }) => {
     root: path.join(__dirname, "src/renderer"),
     resolve: {
       alias: {
-        "@": path.join(__dirname, "src/renderer"),
+        "@": path.join(__dirname, "src/renderer/src"),
         "@common": path.join(__dirname, "src/renderer/src/common"),
       },
     },
