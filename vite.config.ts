@@ -7,11 +7,13 @@ import pkg from "./package.json";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
+  console.log(22);
   rmSync("out/far", { recursive: true, force: true });
 
   const isServe = command === "serve";
   const isBuild = command === "build";
   const sourcemap = isServe || !!process.env.VSCODE_DEBUG;
+  console.log(path.join(__dirname, "src/far/main/index.ts"));
 
   return {
     root: path.join(__dirname, "src/renderer"),
@@ -24,9 +26,10 @@ export default defineConfig(({ command }) => {
       react(),
       electron({
         main: {
-          entry: "src/far/main/index.ts",
+          entry: path.join(__dirname, "src/far/main/index.ts"),
           onstart(args) {
             if (process.env.VSCODE_DEBUG) {
+              console.log(33);
               console.log(
                 /* For `.vscode/.debug.script.mjs` */ "[startup] Electron App"
               );
@@ -68,7 +71,7 @@ export default defineConfig(({ command }) => {
       }),
     ],
     build: {
-      outDir: "../../out/renderer",
+      outDir: path.join(__dirname, "out/renderer"),
     },
     server:
       process.env.VSCODE_DEBUG &&

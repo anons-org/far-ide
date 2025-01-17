@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #181818;
+}
+
+* {
+  background-color: var(--color-primary);
+}
+
+.drag {
+  -webkit-app-region: drag;
+}
