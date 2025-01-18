@@ -26,6 +26,7 @@ export const useProject = create<
     isEmpty: false,
     isActive: true,
     files: [],
+    id: "",
   },
   currentActiveTreeFile: [],
   setProjectInfo: (projectInfo: FileInfo) => set({ projectInfo }),

@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import os from "node:os";
 import { isEmptyDir } from "./utils";
+import { randomUUID } from "node:crypto";
 
 function getFileInfo(rootName = ""): FileInfo["files"] {
   // 查看当前根目录的文件
@@ -20,6 +21,7 @@ function getFileInfo(rootName = ""): FileInfo["files"] {
       isEmpty: isDir ? isEmptyDir(path.join(rootName, file.name)) : false,
       isActive: false,
       files: [],
+      id: randomUUID(),
     });
   });
   // 对dirFiles进行排序
@@ -53,6 +55,7 @@ ipcMain.handle("open-file", () => {
       isEmpty: false,
       isActive: true,
       files,
+      id: randomUUID(),
     };
   }
   return {
@@ -63,6 +66,7 @@ ipcMain.handle("open-file", () => {
     isEmpty: false,
     isActive: true,
     files: [] as FileInfo[],
+    id: randomUUID(),
   };
 });
 

@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import { useProject } from "@/store";
 import IconFont from "../icon-font";
 import { cn } from "@/common/utils";
@@ -6,10 +6,16 @@ import { expandOrCollapseFile } from "@/ipc";
 
 export default function Slider() {
   const projectInfo = useProject((state) => state.projectInfo);
+  const [selectedId, setSelectedId] = useState(projectInfo.id);
+  const sliderRef = useRef<HTMLDivElement>(null);
+
+  const handleSelectedId = (id: string) => {
+    setSelectedId(id);
+  };
 
   return (
     // 文件列表
-    <div className="py-2 h-full overflow-y-auto">
+    <div className="py-2 h-full overflow-y-auto" ref={sliderRef}>
       {[projectInfo].map((file) => (
         <Fragment key={file.name}>
           <FileItem
@@ -17,22 +23,12 @@ export default function Slider() {
             isActive={file.isActive}
             index={0}
             defaultFiles={file.files}
+            selectedId={selectedId}
+            handleSelectedId={handleSelectedId}
+            sliderWidth={sliderRef.current?.clientWidth ?? 0}
           />
-          {/* <div className="pl-4">
-            {file.files?.map((file, index) => (
-              <FileItem
-                file={file}
-                isActive={file.isActive}
-                key={file.name}
-                index={index}
-              />
-            ))}
-          </div> */}
         </Fragment>
       ))}
-      {/* {projectInfo.files.map((file, index) => {
-        return <FileItem file={file} index={index} />;
-      })} */}
     </div>
   );
 }
@@ -42,6 +38,9 @@ interface FileItemProps {
   isActive: boolean;
   index: number;
   defaultFiles?: FileInfo[];
+  selectedId: string;
+  sliderWidth: number;
+  handleSelectedId: (id: string) => void;
 }
 function FileItem(props: FileItemProps) {
   const [isOpen, setIsOpen] = useState(props.isActive);
@@ -54,47 +53,54 @@ function FileItem(props: FileItemProps) {
       const files = await expandOrCollapseFile(props.file.path);
       setChildFiles(files);
     }
+    props.handleSelectedId(props.file.id);
     setIsOpen(!isOpen);
   };
-  const handleDoubleClick = () => {
-    // setIsOpen(is);
-    // setCurrentActiveFileIndex([index]);
-  };
 
+  const isSelected = props.selectedId === props.file.id;
   return (
     // 文件项
     <>
       <div
-        className={cn("flex items-center gap-1.5 px-4", {
-          "bg-bg_active": isOpen,
-          "hover:bg-bg_hover": !isOpen,
-        })}
+        className={"group flex items-center gap-1.5 px-4"}
         onClick={handleSingleClick}
-        onDoubleClick={handleDoubleClick}
       >
-        {/* 目录展开图标 */}
-        <IconFont
-          name="arrow"
-          className={cn("text-white invisible", {
-            visible: props.file.isDir && !props.file.isEmpty,
-            "rotate-90": isOpen,
+        <div className="flex items-center gap-1.5 w-full z-10">
+          {/* 目录展开图标 */}
+          <IconFont
+            name="arrow"
+            className={cn("text-white invisible", {
+              visible: props.file.isDir && !props.file.isEmpty,
+              "rotate-90": isOpen,
+            })}
+          />
+          {/* 文件图标 */}
+          <IconFont
+            name={
+              props.file.isDir
+                ? `dir_${isOpen ? "expand" : "collapse"}`
+                : "file"
+            }
+            className="text-white"
+          />
+          {/* 文件名 */}
+          <span
+            className="flex-1 select-none block text-ellipsis whitespace-nowrap overflow-hidden"
+            title={props.file.name}
+          >
+            {props.file.name}
+          </span>
+        </div>
+
+        <div
+          className={cn("h-18px bg-transparent absolute left-0", {
+            "group-hover:bg-bg_hover": !isSelected,
+            "bg-bg_active": isSelected,
           })}
-        />
-        {/* 文件图标 */}
-        <IconFont
-          name={
-            props.file.isDir ? `dir_${isOpen ? "expand" : "collapse"}` : "file"
-          }
-          className="text-white"
-        />
-        {/* 文件名 */}
-        <span
-          className="flex-1 select-none block text-ellipsis whitespace-nowrap overflow-hidden"
-          title={props.file.name}
-        >
-          {props.file.name}
-        </span>
+          style={{ width: props.sliderWidth }}
+        ></div>
       </div>
+
       <div className="pl-4">
         {/* 子文件 */}
         {isOpen &&
@@ -104,6 +110,9 @@ function FileItem(props: FileItemProps) {
               isActive={file.isActive}
               key={file.name}
               index={props.index}
+              selectedId={props.selectedId}
+              handleSelectedId={props.handleSelectedId}
+              sliderWidth={props.sliderWidth}
             />
           ))}
       </div>
