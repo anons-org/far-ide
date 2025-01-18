@@ -1,12 +1,12 @@
 import { Tabbar, MainEmpty, Slider } from "@common";
-import { useProjectFiles } from "./store";
+import { useProject } from "./store";
 import { Allotment } from "allotment";
 import "allotment/dist/style.css";
 import "./assets/iconfont.js";
-import { useMemo } from "react";
 
 export default function App() {
-  const isEmptyProject = useProjectFiles((state) => state.files).length === 0;
+  const isEmptyProject =
+    useProject((state) => state.projectInfo.files).length === 0;
 
   console.log({ isEmptyProject });
   return (

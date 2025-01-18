@@ -1,13 +1,12 @@
 import { openFile } from "@/ipc";
-import { useProjectFiles } from "@/store";
+import { useProject } from "@/store";
 
 export default function MainEmpty() {
-  const { setFiles } = useProjectFiles();
+  const setProjectInfo = useProject((state) => state.setProjectInfo);
 
   const handleOpenFile = async () => {
-    const files = await openFile();
-    console.log(files);
-    setFiles(files);
+    const filesRes = await openFile();
+    setProjectInfo(filesRes);
   };
   return (
     <div className="h-full all_flex">

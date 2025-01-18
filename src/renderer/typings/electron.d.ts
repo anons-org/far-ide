@@ -1,5 +1,6 @@
 interface InvokeChannelMap {
-  "open-file": [[], FileInfo[]];
+  "open-file": [[], FileInfo];
+  "expand-or-collapse-file": [[string], FileInfo["files"]];
 }
 
 interface IpcRenderer extends Omit<IpcRenderer, "invoke" | "send"> {

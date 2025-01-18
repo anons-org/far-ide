@@ -6,6 +6,7 @@ declare global {
     isDir: boolean;
     isEmpty: boolean;
     isOpen: boolean;
+    files: FileInfo[];
   }
 }
 export {};

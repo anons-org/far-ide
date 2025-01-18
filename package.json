@@ -45,6 +45,7 @@
     "allotment": "^1.20.2",
     "clsx": "^2.1.1",
     "electron-log": "^5.2.4",
+    "monaco-editor": "^0.52.2",
     "tailwind-merge": "^2.6.0",
     "zustand": "^5.0.3"
   }
