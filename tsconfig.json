@@ -24,6 +24,6 @@
       "@common/*": ["src/renderer/src/common/*", "src/renderer/src/common/index"],
     },
   },
-  "include": ["src/renderer", "src/far", "postcss.config.js", "tailwind.config.js"],
+  "include": ["src/renderer", "src/far", "postcss.config.js", "tailwind.config.js", "src/far.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

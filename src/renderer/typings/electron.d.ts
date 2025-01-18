@@ -1,5 +1,12 @@
+interface FileInfo {
+  name: string;
+  parentPath: string;
+  path: string;
+  isDir: boolean;
+  isEmpty: boolean;
+}
 interface InvokeChannelMap {
-  "open-file": [[], fs.Dirent[]];
+  "open-file": [[], FileInfo[]];
 }
 
 interface IpcRenderer extends Omit<IpcRenderer, "invoke" | "send"> {
