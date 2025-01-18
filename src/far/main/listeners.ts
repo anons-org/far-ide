@@ -18,10 +18,11 @@ ipcMain.handle("open-file", () => {
     // 查看当前根目录的文件
     const filesWithType = fs.readdirSync(root[0], { withFileTypes: true });
     // 判断每一个子文件是否是文件夹，如果是文件夹，则判断是否是空文件夹
-    const files: FileInfo[] = [];
+    const dirFiles: FileInfo[] = [];
+    const fileFiles: FileInfo[] = [];
     filesWithType.forEach((file) => {
       const isDir = file.isDirectory();
-      files.push({
+      (isDir ? dirFiles : fileFiles).push({
         name: file.name,
         parentPath: root[0],
         path: path.join(root[0], file.name),
@@ -29,8 +30,16 @@ ipcMain.handle("open-file", () => {
         isEmpty: isDir ? isEmptyDir(path.join(root[0], file.name)) : false,
       });
     });
+    // 对dirFiles进行排序
+    dirFiles.sort((a, b) => {
+      return a.name.localeCompare(b.name);
+    });
+    // 对fileFiles进行排序
+    fileFiles.sort((a, b) => {
+      return a.name.localeCompare(b.name);
+    });
 
-    return files;
+    return [...dirFiles, ...fileFiles];
   }
   return [];
 });

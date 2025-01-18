@@ -1,3 +1,4 @@
+import Logger from "electron-log";
 import fs from "node:fs";
 /**
  * 判断一个文件夹是否为空
@@ -5,5 +6,10 @@ import fs from "node:fs";
  * @returns 是否为空
  */
 export function isEmptyDir(dir: string) {
-  return fs.readdirSync(dir).length === 0;
+  try {
+    return fs.readdirSync(dir).length === 0;
+  } catch (error) {
+    Logger.error(error);
+    return false;
+  }
 }
