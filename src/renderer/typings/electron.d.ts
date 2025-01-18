@@ -1,5 +1,5 @@
 interface InvokeChannelMap {
-  "open-file": [[], string];
+  "open-file": [[], fs.Dirent[]];
 }
 
 interface IpcRenderer extends Omit<IpcRenderer, "invoke" | "send"> {
