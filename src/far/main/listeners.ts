@@ -18,7 +18,7 @@ function getFileInfo(rootName = ""): FileInfo["files"] {
       path: path.join(rootName, file.name),
       isDir: isDir,
       isEmpty: isDir ? isEmptyDir(path.join(rootName, file.name)) : false,
-      isOpen: false,
+      isActive: false,
       files: [],
     });
   });
@@ -51,7 +51,7 @@ ipcMain.handle("open-file", () => {
       path: root[0],
       isDir: true,
       isEmpty: false,
-      isOpen: true,
+      isActive: true,
       files,
     };
   }
@@ -61,7 +61,7 @@ ipcMain.handle("open-file", () => {
     path: "",
     isDir: false,
     isEmpty: false,
-    isOpen: true,
+    isActive: true,
     files: [] as FileInfo[],
   };
 });
@@ -70,5 +70,6 @@ ipcMain.handle("open-file", () => {
  * 展开或折叠文件夹
  */
 ipcMain.handle("expand-or-collapse-file", (_, rootName: string) => {
+  console.log("rootName", rootName);
   return getFileInfo(rootName);
 });

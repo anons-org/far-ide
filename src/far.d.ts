@@ -5,7 +5,7 @@ declare global {
     path: string;
     isDir: boolean;
     isEmpty: boolean;
-    isOpen: boolean;
+    isActive: boolean;
     files: FileInfo[];
   }
 }
