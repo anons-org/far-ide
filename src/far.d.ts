@@ -5,6 +5,7 @@ declare global {
     path: string;
     isDir: boolean;
     isEmpty: boolean;
+    isOpen: boolean;
   }
 }
 export {};

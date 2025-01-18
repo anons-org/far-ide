@@ -17,6 +17,8 @@ export default {
       lineHeight: sizeObj,
       backgroundColor: {
         primary: "var(--color-primary)",
+        bg_active: "var(--bg-active)",
+        bg_hover: "var(--bg-hover)",
       },
     },
   },

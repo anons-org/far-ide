@@ -28,6 +28,7 @@ ipcMain.handle("open-file", () => {
         path: path.join(root[0], file.name),
         isDir: isDir,
         isEmpty: isDir ? isEmptyDir(path.join(root[0], file.name)) : false,
+        isOpen: false,
       });
     });
     // 对dirFiles进行排序
