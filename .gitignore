@@ -37,3 +37,6 @@ release/
 # monaco-editor
 src/renderer/public/monaco-editor
 
+# mac
+.DS_Store
+
