@@ -7,7 +7,7 @@ import pkg from "./package.json";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
-  rmSync("out/far", { recursive: true, force: true });
+  rmSync("out", { recursive: true, force: true });
 
   const isServe = command === "serve";
   const isBuild = command === "build";
@@ -33,7 +33,6 @@ export default defineConfig(({ command }) => {
           entry: path.join(__dirname, "src/far/main/index.ts"),
           onstart(args) {
             if (process.env.VSCODE_DEBUG) {
-              console.log(33);
               console.log(
                 /* For `.vscode/.debug.script.mjs` */ "[startup] Electron App"
               );

@@ -1,15 +1,15 @@
-import { Tabbar, MainEmpty, Slider } from "@common";
+import { Tabbar, MainEmpty } from "@common";
 import { useProject } from "./store";
 import { Allotment } from "allotment";
 import "allotment/dist/style.css";
 import "./assets/iconfont.js";
-import Editor from "./editor/index";
+import Editor from "./layout/editor/index";
+import Slider from "./layout/slider";
 
 export default function App() {
   const isEmptyProject =
     useProject((state) => state.projectInfo.files).length === 0;
 
-  console.log({ isEmptyProject });
   return (
     <div className="bg-primary h-screen flex flex-col">
       <Tabbar />

@@ -10,6 +10,18 @@ import htmlWorker from "monaco-editor/esm/vs/language/html/html.worker?worker";
 import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
 import "./index.css";
 
+monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
+  target: monaco.languages.typescript.ScriptTarget.ES2020,
+  module: monaco.languages.typescript.ModuleKind.CommonJS,
+  allowJs: true,
+  jsx: monaco.languages.typescript.JsxEmit.React,
+  moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
+  noEmit: true,
+});
+// monaco.languages.typescript.typescriptDefaults.addExtraLib(
+//   require("typescript/lib/tsconfig.json"),
+//   "tsconfig.json"
+// );
 window.MonacoEnvironment = {
   getWorker: function (_, label) {
     if (label === "json") {

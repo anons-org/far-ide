@@ -1,6 +1,6 @@
 import { Fragment, useRef, useState, createContext, useContext } from "react";
 import { useProject } from "@/store";
-import IconFont from "../icon-font";
+import { IconFont, useKeyboardEnter } from "@common";
 import { cn } from "@/common/utils";
 import { expandOrCollapseFile, readFile } from "@/ipc";
 import { useFileContent } from "@/store/useFileContent.store";
@@ -12,7 +12,7 @@ const SliderContext = createContext<{
 }>({
   selectedId: "",
   handleSelectedId: () => {},
-  sliderWidth: 0,
+  sliderWidth: 0, // TODO: 多余，之后删除
 });
 export default function Slider() {
   const projectInfo = useProject((state) => state.projectInfo);
@@ -78,8 +78,10 @@ interface FileItemProps {
   defaultFiles?: FileInfo[];
 }
 function FileItem(props: FileItemProps) {
-  const { selectedId, handleSelectedId, sliderWidth } =
-    useContext(SliderContext);
+  const handleKeyboardEnter = useKeyboardEnter(() => {
+    console.log("enter");
+  });
+  const { selectedId, handleSelectedId } = useContext(SliderContext);
 
   const [isOpen, setIsOpen] = useState(props.isActive);
   const [childFiles, setChildFiles] = useState<FileInfo[]>(
@@ -100,7 +102,11 @@ function FileItem(props: FileItemProps) {
     // 文件项
     <>
       <div
-        className={"group flex items-center gap-1.5 px-4"}
+        onKeyDown={handleKeyboardEnter}
+        className={cn("flex items-center gap-1.5 px-4", {
+          "hover:bg-bg_hover": !isSelected,
+          "bg-bg_active": isSelected,
+        })}
         onClick={handleSingleClick}
       >
         <div className="flex items-center gap-1.5 w-full z-10">
@@ -130,13 +136,13 @@ function FileItem(props: FileItemProps) {
           </span>
         </div>
 
-        <div
+        {/* <div
           className={cn("h-18px bg-transparent absolute left-0", {
             "group-hover:bg-bg_hover": !isSelected,
             "bg-bg_active": isSelected,
           })}
           style={{ width: sliderWidth }}
-        ></div>
+        ></div> */}
       </div>
 
       <div className="pl-4">

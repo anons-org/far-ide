@@ -36,7 +36,7 @@ function getFileInfo(rootName = ""): FileInfo["files"] {
 ipcMain.handle("open-file", () => {
   const root = dialog.showOpenDialogSync({
     // 用户目录
-    defaultPath: os.homedir(),
+    defaultPath: path.join(os.homedir(), "Dev/far-editor"),
     // 只能选择文件夹
     properties: ["openDirectory"],
   });
@@ -74,7 +74,6 @@ ipcMain.handle("open-file", () => {
  * 展开或折叠文件夹
  */
 ipcMain.handle("expand-or-collapse-file", (_, rootName: string) => {
-  console.log("rootName", rootName);
   return getFileInfo(rootName);
 });
 
