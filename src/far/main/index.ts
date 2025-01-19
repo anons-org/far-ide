@@ -55,7 +55,6 @@ async function createWindow() {
     webPreferences: {
       preload,
       webSecurity: false,
-      additionalArguments: ["--disable-web-security"],
       // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
       // nodeIntegration: true,
 

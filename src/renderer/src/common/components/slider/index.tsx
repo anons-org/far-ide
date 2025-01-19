@@ -1,34 +1,72 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useRef, useState, createContext, useContext } from "react";
 import { useProject } from "@/store";
 import IconFont from "../icon-font";
 import { cn } from "@/common/utils";
-import { expandOrCollapseFile } from "@/ipc";
+import { expandOrCollapseFile, readFile } from "@/ipc";
+import { useFileContent } from "@/store/useFileContent.store";
 
+const SliderContext = createContext<{
+  selectedId: string;
+  handleSelectedId: (id: string, isDir: boolean, fileName: string) => void;
+  sliderWidth: number;
+}>({
+  selectedId: "",
+  handleSelectedId: () => {},
+  sliderWidth: 0,
+});
 export default function Slider() {
   const projectInfo = useProject((state) => state.projectInfo);
+  const setFileContent = useFileContent((state) => state.setFileContent);
+  const setSelectedFileInfo = useFileContent(
+    (state) => state.setSelectedFileInfo
+  );
   const [selectedId, setSelectedId] = useState(projectInfo.id);
   const sliderRef = useRef<HTMLDivElement>(null);
 
-  const handleSelectedId = (id: string) => {
+  const handleSelectedId = async (
+    id: string,
+    isDir: boolean,
+    fileName: string
+  ) => {
     setSelectedId(id);
+    // 如何是单纯的文件，则需要读取文件内容
+    if (!isDir) {
+      const fileContent = await readFile(fileName);
+      setFileContent(fileContent);
+      setSelectedFileInfo({
+        id,
+        name: fileName,
+        path: fileName,
+        // 文件类型
+        type: fileName.split(".").pop(),
+      });
+    }
   };
 
   return (
     // 文件列表
-    <div className="py-2 h-full overflow-y-auto" ref={sliderRef}>
-      {[projectInfo].map((file) => (
-        <Fragment key={file.name}>
-          <FileItem
-            file={file}
-            isActive={file.isActive}
-            index={0}
-            defaultFiles={file.files}
-            selectedId={selectedId}
-            handleSelectedId={handleSelectedId}
-            sliderWidth={sliderRef.current?.clientWidth ?? 0}
-          />
-        </Fragment>
-      ))}
+    <div
+      className="my-scrollable-div py-2 h-full overflow-y-auto"
+      ref={sliderRef}
+    >
+      <SliderContext.Provider
+        value={{
+          selectedId,
+          handleSelectedId,
+          sliderWidth: sliderRef.current?.clientWidth ?? 0,
+        }}
+      >
+        {[projectInfo].map((file) => (
+          <Fragment key={file.name}>
+            <FileItem
+              file={file}
+              isActive={file.isActive}
+              index={0}
+              defaultFiles={file.files}
+            />
+          </Fragment>
+        ))}
+      </SliderContext.Provider>
     </div>
   );
 }
@@ -38,11 +76,11 @@ interface FileItemProps {
   isActive: boolean;
   index: number;
   defaultFiles?: FileInfo[];
-  selectedId: string;
-  sliderWidth: number;
-  handleSelectedId: (id: string) => void;
 }
 function FileItem(props: FileItemProps) {
+  const { selectedId, handleSelectedId, sliderWidth } =
+    useContext(SliderContext);
+
   const [isOpen, setIsOpen] = useState(props.isActive);
   const [childFiles, setChildFiles] = useState<FileInfo[]>(
     props.defaultFiles || []
@@ -53,11 +91,11 @@ function FileItem(props: FileItemProps) {
       const files = await expandOrCollapseFile(props.file.path);
       setChildFiles(files);
     }
-    props.handleSelectedId(props.file.id);
+    handleSelectedId(props.file.id, props.file.isDir, props.file.path);
     setIsOpen(!isOpen);
   };
 
-  const isSelected = props.selectedId === props.file.id;
+  const isSelected = selectedId === props.file.id;
   return (
     // 文件项
     <>
@@ -97,7 +135,7 @@ function FileItem(props: FileItemProps) {
             "group-hover:bg-bg_hover": !isSelected,
             "bg-bg_active": isSelected,
           })}
-          style={{ width: props.sliderWidth }}
+          style={{ width: sliderWidth }}
         ></div>
       </div>
 
@@ -110,9 +148,6 @@ function FileItem(props: FileItemProps) {
               isActive={file.isActive}
               key={file.name}
               index={props.index}
-              selectedId={props.selectedId}
-              handleSelectedId={props.handleSelectedId}
-              sliderWidth={props.sliderWidth}
             />
           ))}
       </div>

@@ -77,3 +77,10 @@ ipcMain.handle("expand-or-collapse-file", (_, rootName: string) => {
   console.log("rootName", rootName);
   return getFileInfo(rootName);
 });
+
+/**
+ * 读取文件内容
+ */
+ipcMain.handle("read-file", (_, fileName: string) => {
+  return fs.readFileSync(fileName, "utf-8");
+});

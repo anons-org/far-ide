@@ -22,6 +22,10 @@ export default defineConfig(({ command }) => {
         "@common": path.join(__dirname, "src/renderer/src/common"),
       },
     },
+    optimizeDeps: {
+      include: ["monaco-editor"],
+    },
+
     plugins: [
       react(),
       electron({
@@ -71,6 +75,12 @@ export default defineConfig(({ command }) => {
       }),
     ],
     build: {
+      rollupOptions: {
+        external: ["monaco-editor"],
+      },
+      commonjsOptions: {
+        include: ["monaco-editor"],
+      },
       outDir: path.join(__dirname, "out/renderer"),
     },
     server:
@@ -83,5 +93,8 @@ export default defineConfig(({ command }) => {
         };
       })(),
     clearScreen: false,
+    worker: {
+      format: "iife",
+    },
   };
 });

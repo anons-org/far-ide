@@ -21,3 +21,13 @@ export async function expandOrCollapseFile(
   );
   return filesRes;
 }
+
+/**
+ * 读取文件内容
+ * @param fileName 文件名称
+ * @returns 文件内容
+ */
+export async function readFile(fileName: string): Promise<string> {
+  const fileContent = await window.ipcRenderer.invoke("read-file", fileName);
+  return fileContent;
+}
