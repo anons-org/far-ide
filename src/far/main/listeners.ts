@@ -21,7 +21,7 @@ function getFileInfo(rootName = ""): FileInfo["files"] {
       isEmpty: isDir ? isEmptyDir(path.join(rootName, file.name)) : false,
       isActive: false,
       files: [],
-      id: randomUUID(),
+      id: randomUUID() as string,
     });
   });
   // 对dirFiles进行排序

@@ -30,35 +30,4 @@ export const useProject = create<
   },
   currentActiveTreeFile: [],
   setProjectInfo: (projectInfo: FileInfo) => set({ projectInfo }),
-  // setCurrentActiveTreeFile: (name: string, rootName: string) => {
-  //   if (get().currentActiveTreeFile.includes(rootName)) {
-  //     set({ currentActiveTreeFile: [name] });
-  //   } else {
-  //     set({ currentActiveTreeFile: [rootName, name] });
-  //   }
-  // },
-  // setExpandOrCollapseFile: (index: number) => {
-  //   const files = get().projectInfo.files;
-
-  // }
-  // files: [],
-  // name: "",
-  // currentActiveFileIndex: -1,
-  // setFiles: (files: FileInfo[]) => set({ files }),
-  // setProjectInfo: (projectInfo: ProjectInfo) =>
-  //   set({ name: projectInfo.name, files: projectInfo.files }),
-  // setCurrentActiveFileIndex: (index: number) => {
-  //   const files = get().files;
-  //   // 设置当前激活的文件索引
-  //   set({ currentActiveFileIndex: index });
-  //   // 如果当前文件是目录，则展开或折叠目录
-  //   if (files[index].isDir) {
-  //     set({
-  //       files: files.map((file, key) => ({
-  //         ...file,
-  //         isOpen: key === index ? !file.isOpen : false,
-  //       })),
-  //     });
-  //   }
-  // },
 }));
