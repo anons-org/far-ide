@@ -1,21 +1,27 @@
-import SplitPane, { Pane } from "react-split-pane";
-import Tabbar from "./components/tabbar";
+import { Tabbar, MainEmpty } from "@common";
+import { useProject } from "./store";
+import { Allotment } from "allotment";
+import "allotment/dist/style.css";
+import "./assets/iconfont.js";
+import Editor from "./layout/editor/index";
+import Slider from "./layout/slider";
 
 export default function App() {
+  const isEmptyProject =
+    useProject((state) => state.projectInfo.files).length === 0;
+
   return (
     <div className="bg-primary h-screen flex flex-col">
       <Tabbar />
-      <div className="flex-1 overflow-hidden relative">
-        {/* @ts-ignore */}
-        <SplitPane
-          split="vertical"
-          style={{ height: "100%" }}
-          resizerClassName="w-[2px]"
-          resizerStyle={{ backgroundColor: "yellow" }}
-        >
-          <Pane className="h-full bg-red-500">1</Pane>
-          <Pane className="h-full bg-blue-500">2</Pane>
-        </SplitPane>
+      <div className="flex-1">
+        <Allotment defaultSizes={[250, 500]}>
+          <Allotment.Pane minSize={160} visible={!isEmptyProject}>
+            <Slider />
+          </Allotment.Pane>
+          <Allotment.Pane minSize={220}>
+            {isEmptyProject ? <MainEmpty /> : <Editor />}
+          </Allotment.Pane>
+        </Allotment>
       </div>
     </div>
   );

@@ -4,12 +4,62 @@
 
 :root {
   --color-primary: #181818;
+  --text-primary: #d1d1d1;
+  --bg-hover: #2a2a2a;
+  --bg-active: #3a3a3a;
 }
 
 * {
-  background-color: var(--color-primary);
+  color: var(--text-primary);
+  font-size: 12px;
 }
+
+@layer base {
+  .all_flex {
+    @apply flex items-center justify-center;
+  }
+  .all_flex_col {
+    @apply flex flex-col items-center justify-center;
+  }
+}
+
 
 .drag {
   -webkit-app-region: drag;
 }
+
+.custom-icon-font {
+  width: 1em; height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+/* 自定义滚动条样式 */
+.my-scrollable-div::-webkit-scrollbar {
+  width: 8px;   /* 设置垂直滚动条宽度 */
+  height: 8px;  /* 设置水平滚动条高度 */
+}
+
+.my-scrollable-div::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);  /* 滚动条轨道的背景颜色 */
+}
+
+.my-scrollable-div::-webkit-scrollbar-thumb {
+  background-color: #424242;  /* 滚动条滑块的颜色 */
+}
+
+.my-scrollable-div::-webkit-scrollbar-thumb:hover {
+  background-color: #535353;  /* 滑块悬停时的颜色 */
+}
+
+/* 显示滚动条 */
+.my-scrollable-div:hover::-webkit-scrollbar {
+  display: block;
+}
+
+/* 隐藏滚动条 */
+.my-scrollable-div:not(:hover)::-webkit-scrollbar {
+  display: none;
+}
+

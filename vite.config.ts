@@ -7,21 +7,25 @@ import pkg from "./package.json";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
-  console.log(22);
-  rmSync("out/far", { recursive: true, force: true });
+  rmSync("out", { recursive: true, force: true });
 
   const isServe = command === "serve";
   const isBuild = command === "build";
   const sourcemap = isServe || !!process.env.VSCODE_DEBUG;
-  console.log(path.join(__dirname, "src/far/main/index.ts"));
+  // console.log(path.join(__dirname, "src/far/main/index.ts"));
 
   return {
     root: path.join(__dirname, "src/renderer"),
     resolve: {
       alias: {
-        "@": path.join(__dirname, "src/renderer"),
+        "@": path.join(__dirname, "src/renderer/src"),
+        "@common": path.join(__dirname, "src/renderer/src/common"),
       },
     },
+    optimizeDeps: {
+      include: ["monaco-editor"],
+    },
+
     plugins: [
       react(),
       electron({
@@ -29,7 +33,6 @@ export default defineConfig(({ command }) => {
           entry: path.join(__dirname, "src/far/main/index.ts"),
           onstart(args) {
             if (process.env.VSCODE_DEBUG) {
-              console.log(33);
               console.log(
                 /* For `.vscode/.debug.script.mjs` */ "[startup] Electron App"
               );
@@ -71,6 +74,12 @@ export default defineConfig(({ command }) => {
       }),
     ],
     build: {
+      // rollupOptions: {
+      //   external: ["monaco-editor"],
+      // },
+      // commonjsOptions: {
+      //   include: ["monaco-editor"],
+      // },
       outDir: path.join(__dirname, "out/renderer"),
     },
     server:

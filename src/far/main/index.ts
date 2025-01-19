@@ -1,8 +1,9 @@
-import { app, BrowserWindow, shell, ipcMain } from "electron";
+import { app, BrowserWindow, shell, ipcMain, session } from "electron";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import os from "node:os";
+import "./listeners";
 // import { update } from "./update";
 
 const require = createRequire(import.meta.url);
@@ -20,8 +21,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 //
 process.env.APP_ROOT = path.join(__dirname, "../..");
 
-export const MAIN_DIST = path.join(process.env.APP_ROOT, "dist-electron");
-export const RENDERER_DIST = path.join(process.env.APP_ROOT, "dist");
+export const MAIN_DIST = path.join(process.env.APP_ROOT, "main");
+export const RENDERER_DIST = path.join(process.env.APP_ROOT, "renderer");
 export const VITE_DEV_SERVER_URL = process.env.VITE_DEV_SERVER_URL;
 
 process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL
@@ -49,8 +50,11 @@ async function createWindow() {
     icon: path.join(process.env.VITE_PUBLIC, "favicon.ico"),
     frame: false,
     titleBarStyle: "hiddenInset",
+    width: 1024,
+    height: 768,
     webPreferences: {
       preload,
+      webSecurity: false,
       // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
       // nodeIntegration: true,
 
@@ -60,8 +64,8 @@ async function createWindow() {
     },
   });
 
-  if (VITE_DEV_SERVER_URL) {
-    win.loadURL(VITE_DEV_SERVER_URL);
+  if (!app.isPackaged) {
+    win.loadURL(VITE_DEV_SERVER_URL!);
     // Open devTool if the app is not packaged
     win.webContents.openDevTools();
   } else {
@@ -107,19 +111,19 @@ app.on("activate", () => {
   }
 });
 
-// New window example arg: new windows url
-ipcMain.handle("open-win", (_, arg) => {
-  const childWindow = new BrowserWindow({
-    webPreferences: {
-      preload,
-      nodeIntegration: true,
-      contextIsolation: false,
-    },
-  });
+// // New window example arg: new windows url
+// ipcMain.handle("open-win", (_, arg) => {
+//   const childWindow = new BrowserWindow({
+//     webPreferences: {
+//       preload,
+//       nodeIntegration: true,
+//       contextIsolation: false,
+//     },
+//   });
 
-  if (VITE_DEV_SERVER_URL) {
-    childWindow.loadURL(`${VITE_DEV_SERVER_URL}#${arg}`);
-  } else {
-    childWindow.loadFile(indexHtml, { hash: arg });
-  }
-});
+//   if (VITE_DEV_SERVER_URL) {
+//     childWindow.loadURL(`${VITE_DEV_SERVER_URL}#${arg}`);
+//   } else {
+//     childWindow.loadFile(indexHtml, { hash: arg });
+//   }
+// });

@@ -2,7 +2,7 @@
 
 declare namespace NodeJS {
   interface ProcessEnv {
-    VSCODE_DEBUG?: 'true'
+    VSCODE_DEBUG?: "true";
     /**
      * The built directory structure
      *
@@ -16,8 +16,24 @@ declare namespace NodeJS {
      * │ └── index.html    > Electron-Renderer
      * ```
      */
-    APP_ROOT: string
+    APP_ROOT: string;
     /** /dist/ or /public/ */
-    VITE_PUBLIC: string
+    VITE_PUBLIC: string;
   }
+}
+
+declare namespace Electron {
+  interface IpcMain {
+    handle: <T extends keyof InvokeChannelMap>(
+      channel: T,
+      listener: (
+        event: Electron.IpcMainEvent,
+        ...args: InvokeChannelMap[T][0]
+      ) => Promise<InvokeChannelMap[T][1]> | InvokeChannelMap[T][1]
+    ) => Promise<any>;
+  }
+}
+
+interface Window {
+  ipcRenderer: IpcRenderer;
 }
