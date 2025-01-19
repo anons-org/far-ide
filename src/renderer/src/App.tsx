@@ -3,6 +3,7 @@ import { useProject } from "./store";
 import { Allotment } from "allotment";
 import "allotment/dist/style.css";
 import "./assets/iconfont.js";
+import Editor from "./editor/index";
 
 export default function App() {
   const isEmptyProject =
@@ -18,7 +19,7 @@ export default function App() {
             <Slider />
           </Allotment.Pane>
           <Allotment.Pane minSize={220}>
-            <MainEmpty />
+            {isEmptyProject ? <MainEmpty /> : <Editor />}
           </Allotment.Pane>
         </Allotment>
       </div>

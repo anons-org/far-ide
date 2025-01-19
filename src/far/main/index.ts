@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell, ipcMain } from "electron";
+import { app, BrowserWindow, shell, ipcMain, session } from "electron";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
@@ -35,10 +35,10 @@ if (os.release().startsWith("6.1")) app.disableHardwareAcceleration();
 // Set application name for Windows 10+ notifications
 if (process.platform === "win32") app.setAppUserModelId(app.getName());
 
-// if (!app.requestSingleInstanceLock()) {
-//   app.quit();
-//   process.exit(0);
-// }
+if (!app.requestSingleInstanceLock()) {
+  app.quit();
+  process.exit(0);
+}
 
 let win: BrowserWindow | null = null;
 const preload = path.join(__dirname, "../preload/index.mjs");
@@ -54,6 +54,8 @@ async function createWindow() {
     height: 768,
     webPreferences: {
       preload,
+      webSecurity: false,
+      additionalArguments: ["--disable-web-security"],
       // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
       // nodeIntegration: true,
 
@@ -63,8 +65,8 @@ async function createWindow() {
     },
   });
 
-  if (VITE_DEV_SERVER_URL) {
-    win.loadURL(VITE_DEV_SERVER_URL);
+  if (!app.isPackaged) {
+    win.loadURL(VITE_DEV_SERVER_URL!);
     // Open devTool if the app is not packaged
     win.webContents.openDevTools();
   } else {

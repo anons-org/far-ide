@@ -34,4 +34,6 @@ release/
 .DS_Store
 .vite/
 
+# monaco-editor
+src/renderer/public/monaco-editor
 
